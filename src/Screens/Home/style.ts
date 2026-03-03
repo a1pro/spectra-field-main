@@ -1,0 +1,235 @@
+import {StyleSheet} from 'react-native';
+import {colors} from '../../Theme/colors';
+import {scale} from 'react-native-size-matters';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
+    paddingHorizontal: scale(10),
+    paddingTop: scale(10),
+  },
+  containerBottom: {
+    flex: 1,
+    backgroundColor: colors.white,
+    paddingHorizontal: scale(15),
+    paddingTop: scale(10),
+    borderRadius: 40,
+  },
+  head: {
+    marginTop: 30,
+    fontSize: 24,
+    color: '#232323',
+    alignSelf: 'center',
+    fontWeight: '400',
+  },
+  common: {
+    marginTop: 15,
+    fontSize: 14,
+    color: colors.black,
+    alignSelf: 'center',
+    fontWeight: '400',
+  },
+  inputStyle: {
+    backgroundColor: 'transparent',
+    fontSize: 14,
+    paddingHorizontal: 6,
+    borderBottomWidth: 0.5,
+    borderColor: colors.grey,
+    marginBottom: 20,
+    borderRadius: 10,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
+    height: 48,
+    marginTop: 10,
+  },
+  login: {
+    fontSize: 30,
+    textAlign: 'center',
+    marginTop: '25%',
+  },
+  con: {marginTop: 80, flex: 1},
+  containerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+  button: {
+    width: 115,
+    backgroundColor: colors.white,
+    borderRadius: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 30,
+    alignContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonText: {
+    color: colors.black,
+    fontSize: 14,
+    marginRight: 7,
+  },
+  flatListContent: {
+    justifyContent: 'space-between',
+    flexGrow: 1,
+  },
+  dateButton: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    alignItems: 'center',
+    height: 65,
+    paddingTop: 15,
+  },
+  sheetContainer: {padding: 15},
+  row: {flexDirection: 'row', justifyContent: 'space-between'},
+  description: {color: colors.black, fontSize: 16},
+  btn: {
+    backgroundColor: colors.lightGreen,
+    padding: 8,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
+  btnText: {color: colors.white, fontSize: 13},
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+    paddingHorizontal: 4,
+  },
+  bulletPoint: {
+    fontSize: 20,
+    marginRight: 10,
+    color: colors.black,
+  },
+  itemText: {
+    fontSize: 12,
+    color: colors.black,
+  },
+  heading: {
+    color: colors.black,
+    fontSize: 12,
+    marginBottom: 10,
+  },
+  headingSub: {
+    color: colors.black,
+    fontSize: 13,
+    marginVertical: 7,
+  },
+  divider: {borderTopWidth: 0.5, borderColor: colors.black, marginVertical: 10},
+  rowSub: {flexDirection: 'row', alignItems: 'center'},
+  text: {color: colors.darkGreen, fontSize: 11, marginLeft: 6},
+  btnRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  manualButton: {fontSize: 14},
+  download: {
+    flexDirection: 'row',
+    backgroundColor: colors.black,
+    padding: 7,
+    borderRadius: 5,
+  },
+  downloadText: {color: colors.white, fontSize: 12, marginLeft: 5},
+  timer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+  },
+  timeContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  timeText: {
+    fontSize: 28,
+    color: colors.lightGreen,
+    marginRight: 5,
+  },
+  labelText: {
+    fontSize: 16,
+    color: colors.black,
+  },
+  timeContainerSub: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonTime: {
+    padding: 6,
+    borderRadius: 5,
+    borderColor: '#3E3E3E33',
+    borderWidth: 1,
+    width: '45%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  endTimebuttonText: {
+    color: colors.black,
+    fontSize: 16,
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+  },
+
+  closeButtonText: {
+    color: colors.white,
+    fontSize: 16,
+  },
+  upload: {
+    alignItems: 'center',
+    height: 106,
+    backgroundColor: '#C5C5C51A',
+    borderColor: '#23232333',
+    borderStyle: 'dotted',
+    borderWidth: 0.5,
+    justifyContent: 'center',
+    marginTop: 10,
+    borderRadius: 5,
+  },
+  imageBackground: {
+    height: 200,
+    width: '100%',
+    marginTop: 20,
+  },
+  locationView: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 20,
+  },
+  timestamp: {
+    color: colors.white,
+    fontSize: 10,
+  },
+  coordinates: {
+    color: colors.white,
+    fontSize: 10,
+  },
+  event:{
+    backgroundColor: colors.lightGreen,
+    padding: scale(5),
+    borderRadius: scale(5),
+    marginTop:scale(5),
+  },
+  eventCount:{
+    backgroundColor: colors.lightGreen,
+    padding: scale(5),
+    borderRadius: scale(5),
+    marginTop:scale(5),
+  }
+});
+
+export default styles;

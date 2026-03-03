@@ -1,0 +1,65 @@
+android/app/build/
+# === Node.js ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.*
+
+# === Metro Bundler ===
+.expo/
+.expo-shared/
+*.expo
+
+# === React Native ===
+ios/Pods/
+*.keystore
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# === Android ===
+android/.gradle/
+android/app/build/
+android/build/
+android/.idea/
+android/local.properties
+android/captures/
+*.iml
+
+# Gradle cache and logs
+.gradle/
+build/
+*.apk
+*.ap_
+*.aar
+*.dex
+*.class
+*.so
+
+# === IDEs ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log
+
+# === macOS ===
+.DS_Store
+
+# === Git backup ===
+*.orig
+
+# === Test coverage ===
+coverage/
+*.lcov
+
+# === Watchman ===
+.watchmanconfig
+
+# === CocoaPods (iOS) ===
+ios/Pods/
+Podfile.lock

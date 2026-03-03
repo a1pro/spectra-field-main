@@ -1,0 +1,1 @@
+- [x] Add SafeAreaProvider to App.tsx to wrap SafeAreaView and fix overlay issue on devices

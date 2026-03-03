@@ -1,0 +1,25 @@
+current directory: /Users/abdullah/Documents/CodeBase/spectra/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/ext/json/ext/parser
+/usr/local/opt/ruby/bin/ruby extconf.rb
+checking for rb_enc_interned_str() in ruby.h... yes
+checking for rb_hash_new_capa() in ruby.h... yes
+checking for rb_hash_bulk_insert() in ruby.h... yes
+checking for strnlen() in string.h... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/abdullah/Documents/CodeBase/spectra/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250708-19494-gb3z3f sitelibdir\=./.gem.20250708-19494-gb3z3f clean
+
+current directory: /Users/abdullah/Documents/CodeBase/spectra/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250708-19494-gb3z3f sitelibdir\=./.gem.20250708-19494-gb3z3f
+compiling parser.c
+linking shared-object json/ext/parser.bundle
+ld: warning: search path '/usr/local/Cellar/openssl@3/3.4.1/lib' not found
+ld: warning: search path '/usr/local/Cellar/openssl@3/3.4.1/lib' not found
+
+current directory: /Users/abdullah/Documents/CodeBase/spectra/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250708-19494-gb3z3f sitelibdir\=./.gem.20250708-19494-gb3z3f install
+/usr/bin/install -c -m 0755 parser.bundle ./.gem.20250708-19494-gb3z3f/json/ext
+
+current directory: /Users/abdullah/Documents/CodeBase/spectra/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20250708-19494-gb3z3f sitelibdir\=./.gem.20250708-19494-gb3z3f clean
