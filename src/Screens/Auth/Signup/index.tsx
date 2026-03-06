@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,98 +8,78 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
-import CustomButton from "../../../Components/Buttons/CustomButton";
-import { RootStackParamList, SCREENS } from "../../../Navigation/MainNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { loginUser } from "../../../Services/api/auth";
-import { setItem } from "../../../Services/storage";
-import { useDispatch, useSelector } from "react-redux";
-import { signInUser } from "../../../Redux/Slicres/authSlice";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icons from "../../../Components/Icons/Icons";
 import { colors } from "../../../Theme/colors";
-import { setLoadingLogin } from "../../../Redux/Slicres/authSlice";
-import AppLoader from "../../../Components/AppLoader";
 import { scale } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList, SCREENS } from "../../../Navigation/MainNavigator";
 
 const schema = z.object({
-  email: z.string({
-    required_error: "Email is required",
-  }),
+  username: z
+    .string({
+      required_error: "Username is required",
+    })
+    .min(3, "Username must be at least 3 characters"),
+  email: z
+    .string({
+      required_error: "Email is required",
+    })
+    .email("Please enter a valid email"),
+  phoneNo: z
+    .string({
+      required_error: "Phone number is required",
+    })
+    .min(10, "Phone number must be at least 10 digits")
+    .max(15, "Phone number is too long")
+    .regex(/^[0-9]+$/, "Phone number must contain only digits"),
   password: z
     .string({
       required_error: "Password is required",
     })
-    .min(5, "Password must be at least 5 characters"),
+    .min(6, "Password must be at least 6 characters"),
 });
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  SCREENS.FORGOTPASSWORD,
-  SCREENS.HOME
+  SCREENS.LOGIN
 >;
 
-export type FormType = z.infer<typeof schema>;
+export type SignupFormType = z.infer<typeof schema>;
 
-const Login = () => {
-  const dispatch = useDispatch();
+const Signup = () => {
   const navigation = useNavigation<NavigationProp>();
   const [security, setSecurity] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const {
     handleSubmit,
     control,
-    setError,
     formState: { errors },
-  } = useForm<FormType>({
+  } = useForm<SignupFormType>({
     resolver: zodResolver(schema),
   });
-  const loading = useSelector((state: any) => state?.authData?.loading);
 
-  const onSubmit = (data: FormType) => {
-    dispatch(setLoadingLogin(true));
-    let body = {
-      login: data?.email?.toLowerCase().trim(),
-      password: data?.password?.trim(),
-    };
-    loginUser(body)
-      .then(async (res: any) => {
-        if (res?.data?.token) {
-          console.log(body, res, "dcdcddc");
-          await setItem("Token", res?.data?.token);
-          dispatch(signInUser(res?.data?.token));
-          dispatch(setLoadingLogin(false));
-        } else {
-          if (res?.code === 401) {
-            setError("password", {
-              type: "custom",
-              message: "Invalid Credentials",
-            });
-          } else {
-            setError("password", {
-              type: "custom",
-              message: "Something went wrong",
-            });
-          }
-          dispatch(setLoadingLogin(false));
-        }
-      })
-      .catch((err: any) => {
-        console.log("err", err);
-        setError("password", {
-          type: "custom",
-          message: "Something went wrong",
-        });
-        dispatch(setLoadingLogin(false));
-      });
+  const onSubmit = (data: SignupFormType) => {
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
+      Alert.alert("Success", "Account created successfully! Please login.", [
+        { text: "OK", onPress: () => navigation.navigate(SCREENS.LOGIN) },
+      ]);
+      console.log("Form Data:", data);
+    }, 1500);
   };
 
-  const handleSignupPress = () => {
-    navigation.navigate(SCREENS.SIGNUP);
+  const handleLoginPress = () => {
+    navigation.navigate(SCREENS.LOGIN);
   };
 
   return (
@@ -122,24 +102,43 @@ const Login = () => {
           />
 
           <View style={styles.con}>
-            <Text style={styles.welcome}>Welcome Back!</Text>
-            <Text style={styles.loginText}>
-              Login to your account and track your task.
+            <Text style={styles.welcome}>Create Account</Text>
+            <Text style={styles.subText}>
+              Sign up to get started with your account.
             </Text>
 
-            <Text style={styles.email}>Email</Text>
-            <View
-              style={{
-                borderRadius: 10,
-                borderColor: colors.black,
-                borderWidth: StyleSheet.hairlineWidth,
-                flexDirection: "row",
-                alignItems: "center",
-                height: 40,
-                marginTop: 8,
-                paddingHorizontal: 14,
-              }}
-            >
+            {/* Username Field */}
+            <Text style={styles.label}>Username</Text>
+            <View style={styles.inputContainer}>
+              <Icons
+                iconType="Ionicons"
+                name="person-outline"
+                color={colors.black}
+                size={22}
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    placeholder={"Enter Username"}
+                    style={styles.inputStyle}
+                    placeholderTextColor={colors.lightGrey}
+                    autoCapitalize="none"
+                  />
+                )}
+                name="username"
+              />
+            </View>
+            {errors.username && (
+              <Text style={styles.errorText}>{errors?.username?.message}</Text>
+            )}
+
+            {/* Email Field */}
+            <Text style={[styles.label, { marginTop: 15 }]}>Email</Text>
+            <View style={styles.inputContainer}>
               <Icons
                 iconType="Ionicons"
                 name="mail-outline"
@@ -156,6 +155,8 @@ const Login = () => {
                     placeholder={"Enter Email"}
                     style={styles.inputStyle}
                     placeholderTextColor={colors.lightGrey}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                   />
                 )}
                 name="email"
@@ -165,19 +166,38 @@ const Login = () => {
               <Text style={styles.errorText}>{errors?.email?.message}</Text>
             )}
 
-            <Text style={[styles.email, { marginTop: 23 }]}>Password</Text>
-            <View
-              style={{
-                borderRadius: 10,
-                borderColor: colors.black,
-                borderWidth: StyleSheet.hairlineWidth,
-                flexDirection: "row",
-                alignItems: "center",
-                height: scale(40),
-                marginTop: 8,
-                paddingHorizontal: 14,
-              }}
-            >
+            {/* Phone Number Field */}
+            <Text style={[styles.label, { marginTop: 15 }]}>Phone Number</Text>
+            <View style={styles.inputContainer}>
+              <Icons
+                iconType="Feather"
+                name="phone"
+                color={colors.black}
+                size={22}
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    placeholder={"Enter Phone Number"}
+                    style={styles.inputStyle}
+                    placeholderTextColor={colors.lightGrey}
+                    keyboardType="phone-pad"
+                  />
+                )}
+                name="phoneNo"
+              />
+            </View>
+            {errors.phoneNo && (
+              <Text style={styles.errorText}>{errors?.phoneNo?.message}</Text>
+            )}
+
+            {/* Password Field */}
+            <Text style={[styles.label, { marginTop: 15 }]}>Password</Text>
+            <View style={styles.inputContainer}>
               <Icons
                 iconType="Feather"
                 name="lock"
@@ -212,49 +232,24 @@ const Login = () => {
               <Text style={styles.errorText}>{errors?.password?.message}</Text>
             )}
 
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate(SCREENS.FORGOTPASSWORD);
-              }}
-            >
-              <Text
-                style={{
-                  alignSelf: "flex-end",
-                  color: colors.black,
-                  fontSize: 12,
-                  borderBottomWidth: 1,
-                  marginTop: 5,
-                  marginRight: 5,
-                }}
-              >
-                Forgot Password?
-              </Text>
-            </TouchableOpacity>
-
-            <View style={styles.signupContainer}>
-              <Text style={styles.signupText}>Don't have an account? </Text>
-              <TouchableOpacity onPress={handleSignupPress}>
-                <Text style={styles.signupLink}>Sign Up</Text>
+            {/* Login Link */}
+            <View style={styles.loginContainer}>
+              <Text style={styles.loginText}>Already have an account? </Text>
+              <TouchableOpacity onPress={handleLoginPress}>
+                <Text style={styles.loginLink}>Login</Text>
               </TouchableOpacity>
             </View>
 
+            {/* Signup Button */}
             <TouchableOpacity
-              style={{
-                backgroundColor: colors.lightGreen,
-                height: 33,
-                marginTop: 14,
-                borderRadius: 5,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              style={styles.signupButton}
               onPress={handleSubmit(onSubmit)}
+              disabled={loading}
             >
               {loading ? (
-                <AppLoader color={colors.white} />
+                <Text style={styles.signupButtonText}>Creating Account...</Text>
               ) : (
-                <Text style={{ color: colors.white, fontWeight: "400" }}>
-                  Login
-                </Text>
+                <Text style={styles.signupButtonText}>Sign Up</Text>
               )}
             </TouchableOpacity>
           </View>
@@ -273,7 +268,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
 
 const styles = StyleSheet.create({
   container: {
@@ -284,16 +279,31 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 19.5,
   },
-  email: {
+  subText: {
+    color: colors.black,
+    fontSize: 12,
+    fontWeight: "400",
+    marginVertical: 3,
+  },
+  label: {
     color: colors.black,
     marginTop: 10,
     fontSize: 12,
   },
   loginText: {
     color: colors.black,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "400",
-    marginVertical: 3,
+  },
+  inputContainer: {
+    borderRadius: 10,
+    borderColor: colors.black,
+    borderWidth: StyleSheet.hairlineWidth,
+    flexDirection: "row",
+    alignItems: "center",
+    height: 40,
+    marginTop: 8,
+    paddingHorizontal: 14,
   },
   inputStyle: {
     fontSize: 13,
@@ -302,17 +312,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 6,
   },
-  login: {
-    fontSize: 30,
-    textAlign: "center",
-    marginTop: "25%",
-    fontWeight: "bold",
-    color: colors.black,
-  },
   errorText: {
     color: "red",
     paddingHorizontal: 6,
     fontSize: 12,
+    marginTop: 2,
   },
   con: {
     marginTop: scale(30),
@@ -327,22 +331,30 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 3,
   },
-  signupContainer: {
+  loginContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 20,
     marginBottom: 5,
   },
-  signupText: {
-    color: colors.black,
-    fontSize: 13,
-    fontWeight: "400",
-  },
-  signupLink: {
+  loginLink: {
     color: "#0066CC",
     fontSize: 13,
     fontWeight: "600",
     textDecorationLine: "underline",
+  },
+  signupButton: {
+    backgroundColor: colors.lightGreen,
+    height: 33,
+    marginTop: 14,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  signupButtonText: {
+    color: colors.white,
+    fontWeight: "400",
+    fontSize: 14,
   },
 });
