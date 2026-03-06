@@ -59,6 +59,7 @@ const Login = () => {
     resolver: zodResolver(schema),
   });
   const loading = useSelector((state: any) => state?.authData?.loading);
+
   const onSubmit = (data: FormType) => {
     dispatch(setLoadingLogin(true));
     let body = {
@@ -95,6 +96,10 @@ const Login = () => {
         });
         dispatch(setLoadingLogin(false));
       });
+  };
+
+  const handleSignupPress = () => {
+    navigation.navigate(SCREENS.SIGNUP);
   };
 
   return (
@@ -159,6 +164,7 @@ const Login = () => {
             {errors.email && (
               <Text style={styles.errorText}>{errors?.email?.message}</Text>
             )}
+
             <Text style={[styles.email, { marginTop: 23 }]}>Password</Text>
             <View
               style={{
@@ -205,6 +211,7 @@ const Login = () => {
             {errors.password && (
               <Text style={styles.errorText}>{errors?.password?.message}</Text>
             )}
+
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(SCREENS.FORGOTPASSWORD);
@@ -223,6 +230,13 @@ const Login = () => {
                 Forgot Password?
               </Text>
             </TouchableOpacity>
+
+            <View style={styles.signupContainer}>
+              <Text style={styles.signupText}>Don't have an account? </Text>
+              <TouchableOpacity onPress={handleSignupPress}>
+                <Text style={styles.signupLink}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
 
             <TouchableOpacity
               style={{
@@ -244,6 +258,7 @@ const Login = () => {
               )}
             </TouchableOpacity>
           </View>
+
           <View
             style={{
               flex: 1,
@@ -269,7 +284,11 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 19.5,
   },
-  email: { color: colors.black, marginTop: 10, fontSize: 12 },
+  email: {
+    color: colors.black,
+    marginTop: 10,
+    fontSize: 12,
+  },
   loginText: {
     color: colors.black,
     fontSize: 12,
@@ -307,5 +326,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 3,
+  },
+  signupContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+    marginBottom: 5,
+  },
+  signupText: {
+    color: colors.black,
+    fontSize: 13,
+    fontWeight: "400",
+  },
+  signupLink: {
+    color: "#0066CC",
+    fontSize: 13,
+    fontWeight: "600",
+    textDecorationLine: "underline",
   },
 });
